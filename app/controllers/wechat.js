@@ -2,8 +2,13 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const wechat = require('wechat');
+const cheerio = require('cheerio');
+const request = require('request');
+
+
 const jssdk = require('../libs/jssdk');
 const User = mongoose.model('User');
+const Conversation = mongoose.model('Conversation');
 
 module.exports = function (app) {
   app.use('/wechat', router);
@@ -34,7 +39,6 @@ const config = {
 
 
 const handleWechatRequest = wechat(config, function(req,res,next){
-
     const message = req.weixin;
     console.log(message, req.query);
 
@@ -45,12 +49,78 @@ const handleWechatRequest = wechat(config, function(req,res,next){
             conversationCount: 0,
         });
 
-        newUser.sve(function(err, user){
+        newUser.save(function(err, user){
             //do business
         });
     }
 
-    res.reply('Hello');
+
+    if(message.MsgType !== 'text'){
+        return res.reply('Invalid Message Type.');
+    }
+
+    if(!message.Content){
+        return res.reply('Give me a Key Word.');
+    }
+
+    const keyword = encodeURIComponent(message.Content);
+
+    request.get({
+        url :  `https://www.baidu.com/s?wd=${keyword}`,
+        headers : {
+            'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36',
+        },
+    }, function(err, response, body){
+
+        if(err){
+            console.next(err);
+            return res.reply('Error, serching answer.');
+        }
+
+        const $ = cheerio.load(body);
+        const results = $('.result.c-container');
+
+        console.log(results.length);
+
+        if(results.length == 0){
+            return res.reply('No answer.');
+        }
+
+        const result = $(results.get(0));
+        const answer = result.find('.c-abstract').text();
+
+        console.log(answer);
+
+        if(answer){
+            res.reply(answer);
+            const conversation = new Conversation({
+                user: req.user,
+                question: message.Content,
+                answer,
+                createAt:new Date(),
+            });
+
+
+            conversation.save(function(e, conversion){
+                if(e){
+                    return console.error('conversion save error: ' , e);
+                }
+
+                req.user.conversationCount = req.user.conversationCount +  1;
+                req.user.save(function(_e, u){
+                    if(_e){
+                        return console.error('update user conversation count error:', e);
+                    }
+
+                    req.user = u;
+                });
+
+            });
+        }else{
+            res.reply('No answer.');
+        }
+
+});
 
 });
 
@@ -91,9 +161,9 @@ const handleUserRequest = function(req, res, next){
         });
     });
 
-} 
+}
 
 
 
 router.get('/conversation',handleWechatRequest);
-router.post('/conversation',handleUserRequest);
+router.post('/conversation',handleUserRequest, handleWechatRequest);
