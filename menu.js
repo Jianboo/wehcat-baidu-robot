@@ -2,6 +2,10 @@ const request = require('request');
 const schedule = require('node-schedule');
 const jssdk = require('./app/libs/jssdk');
 
+//方便调试request库
+//
+//执行 node menu.js 同步菜单
+//
 request.debug = true;
 
 const menuItems = {
@@ -19,7 +23,10 @@ const menuItems = {
     ]
 };
 
+//第分钟同步 {second:0}
+//第小时同步 {second:0, minute:0}
 schedule.scheduleJob({second: 0, minute: 0}, function(){
+    console.log('about to sync menu itmes');
     doMenuSync();
 });
 

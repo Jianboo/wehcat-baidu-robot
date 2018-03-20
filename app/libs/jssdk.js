@@ -158,6 +158,7 @@ JSSDK.prototype = {
 
 const jssdk = new JSSDK('wx59a6cbb2a20d1069','c6547db5e64daa7fe859a6578652439a');
 module.exports = jssdk;
+
 /*
 debug(jssdk.createNonceStr());
 
