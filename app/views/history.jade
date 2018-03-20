@@ -1,12 +1,14 @@
 extends layout
 
 block content
-
-.weui-panel.weui-panel_access
-  .weui-panel__hd 问答历史
-  .weui-panel__bd
-    .weui-media-box.weui-media-box_text
-      h4.weui-media-box__title= conversation.question
-      p.weui-media-box__desc= conversation.answer
-  .weui-panel__ft(href='javascript:void(0);') 查看更多
-
+	.weui-panel.weui-panel_access
+		.weui-panel__hd 问答历史 
+		.weui-panel__bd
+			each conversation in conversations
+				.weui-media-box.weui-media-box_text
+					h4.weui-media-box__title= 'Q: ' + conversation.question
+					p.weui-media-box__desc= 'A: ' + conversation.answer 
+						ul.weui-media-box__info
+							li.weui-media-box__info__meta 文字来源
+							li.weui-media-box__info__meta 时间
+							li.weui-media-box__info__meta.weui-media-box__info__meta_extra 其它信息

@@ -9,7 +9,7 @@ var config = {
       name: 'wehcat-baidu-robot'
     },
     port: process.env.PORT || 3000,
-    db: 'mongodb://localhost/wehcat-baidu-robot-development'
+    db: 'mongodb://localhost/wechat-baidu-robot-development'
   },
 
   test: {
@@ -18,7 +18,7 @@ var config = {
       name: 'wehcat-baidu-robot'
     },
     port: process.env.PORT || 3000,
-    db: 'mongodb://localhost/wehcat-baidu-robot-test'
+    db: 'mongodb://localhost/wechat-baidu-robot-test'
   },
 
   production: {
@@ -27,7 +27,7 @@ var config = {
       name: 'wehcat-baidu-robot'
     },
     port: process.env.PORT || 3000,
-    db: 'mongodb://localhost/wehcat-baidu-robot-production'
+    db: 'mongodb://localhost/wechat-baidu-robot-production'
   }
 };
 

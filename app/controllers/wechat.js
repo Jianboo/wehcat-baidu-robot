@@ -28,7 +28,7 @@ router.get('/history/:userid',function(req, res, next){
             return next(new Error('没有找到用户'));
         }
 	
-	console.log(`find user: $(user)`);
+	console.log(`find user:${user}`);
 	Conversation.find({user}).exec(function(e, conversations){
 		if(e){
 			return next(new Error('查找问答历史出错'));
@@ -37,9 +37,8 @@ router.get('/history/:userid',function(req, res, next){
 		res.render('history',{
             		user, conversations,
             		title : '问答历史',
-            		jretty : true
+            		pretty : true,
         	});
-
 
 		//res.jsonp({user, conversations});
 	});
