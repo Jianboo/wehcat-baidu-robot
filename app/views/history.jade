@@ -1,0 +1,12 @@
+extends layout
+
+block content
+
+.weui-panel.weui-panel_access
+  .weui-panel__hd 问答历史
+  .weui-panel__bd
+    .weui-media-box.weui-media-box_text
+      h4.weui-media-box__title= conversation.question
+      p.weui-media-box__desc= conversation.answer
+  .weui-panel__ft(href='javascript:void(0);') 查看更多
+
