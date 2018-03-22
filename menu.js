@@ -16,12 +16,14 @@ const menuItems = {
             "key" :  "conversation-history",
         },
         {
-            "type" : "click",
+            "type" : "menu",
             "name" : "随机问答",
-            "key" :  "conversation-random",
+            "key" :  "http://119.23.226.144/wechat/random",
         },
     ]
 };
+
+doMenuSync(); //直接执行，更新菜单
 
 //第分钟同步 {second:0}
 //第小时同步 {second:0, minute:0}

@@ -1,4 +1,5 @@
 const express = require('express');
+const moment = require('moment');
 const router = express.Router();
 const mongoose = require('mongoose');
 const wechat = require('wechat');
@@ -35,7 +36,7 @@ router.get('/history/:userid',function(req, res, next){
 		}
 
 		res.render('history',{
-            		user, conversations,
+            		user, conversations,moment,
             		title : '问答历史',
             		pretty : true,
         	});

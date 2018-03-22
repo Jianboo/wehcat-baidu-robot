@@ -9,6 +9,4 @@ block content
 					h4.weui-media-box__title= 'Q: ' + conversation.question
 					p.weui-media-box__desc= 'A: ' + conversation.answer 
 						ul.weui-media-box__info
-							li.weui-media-box__info__meta 文字来源
-							li.weui-media-box__info__meta 时间
-							li.weui-media-box__info__meta.weui-media-box__info__meta_extra 其它信息
+							li.weui-media-box__info__meta= '提问时间: ' +  moment(conversation.createAt).format('YYYY-MM-DD HH:mm:ss')
